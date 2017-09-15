@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 /************************************************************
 					header()
 	Creates the topbar header
@@ -900,5 +898,4 @@ function addItem (id, name, reps, weight, date, lbs,) {
 	button.setAttribute("onclick", "deleteRow('logTable', this)");
 	button.setAttribute("id", "DeleteSection");
 	newRow.appendChild(button);
->>>>>>> 9cc5b96d9de1e79ecbf73ea916ba152504d293a4
 }
