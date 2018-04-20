@@ -1,19 +1,25 @@
 {
   "name": "Excercise-Tracker",
-  "version": "1.0.0",
-  "description": "A web application to track excercises and edit/delete info",
-  "main": "serverSide.js",
+  "version": "2.0.0",
+  "description": "CRUD app that tracks excercises",
+  "main": "index.js",
+  "repository": "https://github.com/mcastillo40/Excercise-Tracker.git",
+  "author": "Matthew Castillo",
+  "license": "MIT",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:dev": "webpack",
+    "build:prod": "webpack -p --env production",
+    "dev-server": "webpack-dev-server"
   },
-  "author": "OSU",
-  "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.13.3",
-    "express": "^4.13.2",
-    "express-handlebars": "^2.0.1",
-    "express-session": "^1.11.3",
-    "handlebars": "^4.0.11",
-    "mysql": "^2.8.0"
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "webpack": "^4.6.0",
+    "webpack-dev-server": "^3.1.3"
   }
 }
