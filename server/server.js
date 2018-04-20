@@ -1,0 +1,41 @@
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const pg = require("./config/keys")
+const PORT = process.env.PORT || 5000;
+
+const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(function(request, response, next) {
+  response.header("Access-Control-Allow-Origin", "*");
+  response.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
+app.get("/api/workouts", function(req, res){
+    pg.pool.connect((err, db, done) => {
+        if(err)
+            return res.status(400).send(err);
+        else {
+            db.query("SELECT * FROM workouts", (err, table) => {
+                done();
+                if(err)
+                    return res.status(400).send(err);
+                else {
+                    console.log(table.rows);
+                    return res.status(200).send(table.rows);
+                }
+            });
+        }
+    });
+});
+
+app.listen(PORT, () => {
+  console.log("Listening on port " + PORT);
+});

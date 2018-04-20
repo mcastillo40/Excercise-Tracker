@@ -4,7 +4,9 @@ module.exports = (env) => {
     const isProduction = env === 'production';
     
     return {
-        entry: path.resolve(__dirname, "./src/app.js"),
+        entry: [
+            path.resolve(__dirname, "./src/app.js")
+        ],
         output: {
           path: path.resolve(__dirname, "./public"),
           filename: "bundle.js"
