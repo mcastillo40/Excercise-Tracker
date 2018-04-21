@@ -54,26 +54,26 @@ export default class AddWorkout extends React.Component {
 
     let self = this;
 
-    // xmlhttprequest
     fetch(request)
-        .then(function(response) {
+        .then(response => {
             return response.json()
-            .then(function(data) {
+            .then(() => {
                 return fetch("http://localhost:5000/api/workouts")
             })
-            .then(function(response) {
+            .then( response => {
                 return response.json()
             })
-            .then(function(data) {
+            .then( data => {
                 let lastItemLength = data.length - 1;
                 let lastItem = data[lastItemLength];
                 
+                console.log("last Item:", lastItem);
                 // Add item that was just placed into the database
                 self.props.addItem(lastItem);
             })
         })
-        .catch(function(err) {
-            console.log(err);
+        .catch( err => {
+            return err;
         });   
   };
 
@@ -105,7 +105,6 @@ export default class AddWorkout extends React.Component {
               ref="name"
               name="name"
               placeholder="Workout Name"
-              onChange={event => this.handleUserInput(event)}
               required
             />
           </div>
@@ -116,7 +115,6 @@ export default class AddWorkout extends React.Component {
               value={this.state.reps}
               ref="reps"
               placeholder="Number of Reps"
-              onChange={event => this.handleUserInput(event)}
               required
             />
           </div>
@@ -127,7 +125,6 @@ export default class AddWorkout extends React.Component {
               value={this.state.weight}
               ref="weight"
               placeholder="Weight"
-              onChange={event => this.handleUserInput(event)}
               required
             />
           </div>
@@ -149,7 +146,7 @@ export default class AddWorkout extends React.Component {
               value={this.state.date}
               ref="date"
               placeholder="Date: YYYY-MM-DD"
-              onChange={event => this.handleUserInput(event)}
+              onChange={event => this.handleDateInput(event)}
               required
             />
           </div>

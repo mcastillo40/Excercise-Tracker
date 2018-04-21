@@ -1,7 +1,6 @@
 import React from "react";
 
 const Workout = props => {
-    //console.log(props)
   return (
     <div className="row center" id="selection">
       <div className="col-sm-2"> {props.workoutInfo.name} </div>

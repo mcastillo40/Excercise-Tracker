@@ -10,33 +10,42 @@ class ExcerciseApp extends React.Component {
 
     this.state = {
       title: "Excercise Tracker",
+      table: "workouts",
       workouts: []
     };
 
     this.addItem = this.addItem.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
+    this.deleteAll = this.deleteAll.bind(this);
   }
 
-  componentDidMount() {
-    try {
-      fetch("http://localhost:5000/api/workouts")
-        .then(response => {
-          return response.json();
-        })
-        .then(data => {
-          this.setState({ workouts: data });
-        });
-    } catch (e) {
-      // JSON value is invalid
-    }
+  componentDidMount() {   
+    fetch("http://localhost:5000/api/workouts")
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        this.setState({ workouts: data });
+      })
+      .catch(err => {
+        return err;
+      });
   }
 
   addItem(item){
-    console.log("item: ", item);
-
     this.setState((prevState) => ({
         workouts: prevState.workouts.concat(item)
     }));
-    
+  }
+
+  deleteItem(item){
+    console.log("delete this item: ", item);
+  }
+
+  deleteAll(){
+    this.setState(() => ({
+      workouts: []
+    }));
   }
 
   render() {
@@ -49,7 +58,10 @@ class ExcerciseApp extends React.Component {
         />
         <Workouts 
             hasOptions={this.state.workouts.length > 0}
+            deleteItem={this.deleteItem}
+            deleteAll={this.deleteAll}
             workouts={this.state.workouts} 
+            table={this.state.table}
         />
       </div>
     );
