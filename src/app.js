@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import ReactModal from "react-modal"
 import Header from "./components/Header";
 import AddWorkout from "./components/AddWorkout";
 import Workouts from "./components/Workouts";
@@ -17,9 +18,10 @@ class ExcerciseApp extends React.Component {
     this.addItem = this.addItem.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
     this.deleteAll = this.deleteAll.bind(this);
+    this.editItem = this.editItem.bind(this);
   }
 
-  componentDidMount() {   
+  componentDidMount() {
     fetch("http://localhost:5000/api/workouts")
       .then(response => {
         return response.json();
@@ -32,36 +34,44 @@ class ExcerciseApp extends React.Component {
       });
   }
 
-  addItem(item){
-    this.setState((prevState) => ({
-        workouts: prevState.workouts.concat(item)
+  componentWillMount() {
+    ReactModal.setAppElement('body');
+  }
+
+  addItem(item) {
+    this.setState(prevState => ({
+      workouts: prevState.workouts.concat(item)
     }));
   }
 
-  deleteItem(item){
-    console.log("delete this item: ", item);
+  deleteItem(itemToRemove) {
+    this.setState(prevState => ({
+      workouts: prevState.workouts.filter(item => itemToRemove !== item.id)
+    }));
   }
 
-  deleteAll(){
+  deleteAll() {
     this.setState(() => ({
       workouts: []
     }));
+  }
+
+  editItem(item) {
+
   }
 
   render() {
     return (
       <div>
         <Header title={this.state.title} />
-        <AddWorkout 
-            workouts={this.state.workouts} 
-            addItem={this.addItem}
-        />
-        <Workouts 
-            hasOptions={this.state.workouts.length > 0}
-            deleteItem={this.deleteItem}
-            deleteAll={this.deleteAll}
-            workouts={this.state.workouts} 
-            table={this.state.table}
+        <AddWorkout workouts={this.state.workouts} addItem={this.addItem} />
+        <Workouts
+          hasOptions={this.state.workouts.length > 0}
+          deleteItem={this.deleteItem}
+          editItem={this.editItem}
+          deleteAll={this.deleteAll}
+          workouts={this.state.workouts}
+          table={this.state.table}
         />
       </div>
     );

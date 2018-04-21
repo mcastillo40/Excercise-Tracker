@@ -1,5 +1,6 @@
 import React from "react";
 import Workout from "./Workout";
+import EditWorkout from "./EditWorkout"
 
 export default class Workouts extends React.Component {
   constructor(props) {
@@ -28,9 +29,9 @@ export default class Workouts extends React.Component {
       });
   }
 
-  handleRemove(current) {
+  handleRemove(id) {
     let request = new Request(
-      `http://localhost:5000/api/delete-item/${current}`,
+      `http://localhost:5000/api/delete-item/${id}`,
       {
         method: "DELETE"
       }
@@ -41,7 +42,8 @@ export default class Workouts extends React.Component {
         return response.json();
       })
       .then(() => {
-        this.props.deleteItem(current);
+          console.log("item: ", id)
+        this.props.deleteItem(id);
       })
       .catch(err => {
         console.log("this: ", err);

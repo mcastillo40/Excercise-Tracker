@@ -1,6 +1,5 @@
 import React from "react";
 
-
 export default class AddWorkout extends React.Component {
   constructor(props) {
     super(props);
@@ -38,7 +37,7 @@ export default class AddWorkout extends React.Component {
     }
 
     let data = {
-        name: "Test this",
+        name: "Another this121",
         reps: "12",
         weight: "120",
         lbs: "FALSE",
@@ -67,7 +66,6 @@ export default class AddWorkout extends React.Component {
                 let lastItemLength = data.length - 1;
                 let lastItem = data[lastItemLength];
                 
-                console.log("last Item:", lastItem);
                 // Add item that was just placed into the database
                 self.props.addItem(lastItem);
             })
@@ -75,6 +73,13 @@ export default class AddWorkout extends React.Component {
         .catch( err => {
             return err;
         });   
+
+    // Change values to empty
+    this.refs.name.value = "";
+    this.refs.reps.value = "";
+    this.refs.weight.value = "";
+    this.refs.lbs.value = "";
+    this.refs.date.value = "";
   };
 
   handleDateInput(e) { };
@@ -151,7 +156,7 @@ export default class AddWorkout extends React.Component {
             />
           </div>
           <div className="form-group">
-            <button className="btn btn-dark col-sm-12 ">
+            <button className="btn btn-primary col-sm-12">
               Submit
             </button>
           </div>

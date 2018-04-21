@@ -65,6 +65,10 @@ app.post("/api/new-workout", function (req, res) {
     });
 });
 
+app.put("/api/update/:id", function(req, res){
+    console.log("Item to edit: ", req.params.id);
+});
+
 app.delete("/api/delete-item/:id", function(req, res){
     let id = req.params.id;
 

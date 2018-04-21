@@ -1,4 +1,5 @@
 import React from "react";
+import EditWorkout from "./EditWorkout"
 
 const Workout = props => {
   return (
@@ -9,12 +10,7 @@ const Workout = props => {
       
       <div className="col-sm-2"> {props.workoutInfo.date} </div>
       <div className="col-sm-2">
-        <button
-          className="btn"
-          onClick={id => props.handleEdit(props.workoutInfo.id)}
-        >
-          Edit
-        </button>
+        <EditWorkout workoutInfo={props.workoutInfo}/>
       </div>
       <div className="col-sm-2">
         <button
@@ -29,3 +25,10 @@ const Workout = props => {
 };
 
 export default Workout;
+
+// <button
+//           className="btn"
+//           onClick={id => props.handleEdit(props.workoutInfo.id)}
+//         >
+//           Edit
+//         </button>
