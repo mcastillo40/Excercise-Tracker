@@ -12,6 +12,8 @@ class ExcerciseApp extends React.Component {
       title: "Excercise Tracker",
       workouts: []
     };
+
+    this.addItem = this.addItem.bind(this);
   }
 
   componentDidMount() {
@@ -28,11 +30,23 @@ class ExcerciseApp extends React.Component {
     }
   }
 
+  addItem(item){
+    console.log("item: ", item);
+
+    this.setState((prevState) => ({
+        workouts: prevState.workouts.concat(item)
+    }));
+    
+  }
+
   render() {
     return (
       <div>
         <Header title={this.state.title} />
-        <AddWorkout workouts={this.state.workouts} />
+        <AddWorkout 
+            workouts={this.state.workouts} 
+            addItem={this.addItem}
+        />
         <Workouts 
             hasOptions={this.state.workouts.length > 0}
             workouts={this.state.workouts} 

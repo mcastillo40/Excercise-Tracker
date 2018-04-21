@@ -25,7 +25,7 @@ app.get("/api/workouts", function(req, res){
         if(err)
             return res.status(400).send(err);
         else {
-            db.query("SELECT *, to_char(\"date\", 'DD/MM/YYYY') AS date FROM workouts", (err, table) => {
+            db.query("SELECT *, to_char(\"date\", 'DD/MM/YYYY') AS date FROM workouts;", (err, table) => {
                 done();
                 if(err)
                     return res.status(400).send(err);
@@ -36,6 +36,34 @@ app.get("/api/workouts", function(req, res){
             });
         }
     });
+});
+
+app.post("/api/new-workout", function (req, res) {
+    const name = req.body.name; 
+    const reps = req.body.reps;
+    const weight = req.body.weight;
+    const lbs = req.body.lbs;
+    const date = req.body.date;
+
+    const data = [name, reps, weight, lbs, date];
+
+    pg.pool.connect((err, db,done) => {
+        if(err)
+            return res.status(400).send(err);
+        else {
+            db.query("INSERT INTO workouts (name, reps, weight, lbs, date)" 
+            + "VALUES ($1, $2, $3, $4, $5);", data, (err, table) => {
+                if (err)
+                    return res.status(400).send(err);
+                else {
+                    console.log("Data Inserted!");
+                    db.end();
+                    res.status(201).send({message: "Data Inserted!"});
+                }
+            });
+        }
+    });
+
 });
 
 app.listen(PORT, () => {
