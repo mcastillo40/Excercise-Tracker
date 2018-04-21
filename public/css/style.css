@@ -10,10 +10,13 @@ h1 {
   font-size: 220%;
   font-weight: bold;
   margin-bottom: 15px;
-  color: #222222;
+  color: white;
 }
 
-h2, h3, h4, h5 {
+h2,
+h3,
+h4,
+h5 {
   color: #222222;
 }
 
@@ -40,6 +43,11 @@ h2, h3, h4, h5 {
 }
 
 /* NAVIGATION BAR */
+nav {
+  margin: 0 auto;
+  text-align: center;
+}
+
 #navbarArea {
   background-color: #222222 !important;
   padding: 1px;
@@ -50,6 +58,9 @@ h2, h3, h4, h5 {
   font-size: 140%;
 }
 
-#navbarNav a {
-  height: 50px;
+/* FORM STYLE */
+form {
+  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 45px;
 }

@@ -18,6 +18,8 @@ app.use(function(request, response, next) {
   next();
 });
 
+// Get function that returns all items in the database
+// id, name, reps, weight, date, and lbs(1 for lbs, 0 for kg)
 app.get("/api/workouts", function(req, res){
     pg.pool.connect((err, db, done) => {
         if(err)
@@ -28,7 +30,7 @@ app.get("/api/workouts", function(req, res){
                 if(err)
                     return res.status(400).send(err);
                 else {
-                    console.log(table.rows);
+                    //console.log(table.rows);
                     return res.status(200).send(table.rows);
                 }
             });
