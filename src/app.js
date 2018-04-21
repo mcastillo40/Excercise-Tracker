@@ -21,8 +21,7 @@ class ExcerciseApp extends React.Component {
           return response.json();
         })
         .then(data => {
-          console.log(data)
-          this.setState({ countries: data });
+          this.setState({ workouts: data });
         });
     } catch (e) {
       // JSON value is invalid
@@ -34,7 +33,10 @@ class ExcerciseApp extends React.Component {
       <div>
         <Header title={this.state.title} />
         <AddWorkout workouts={this.state.workouts} />
-        <Workouts workouts={this.state.workouts} />
+        <Workouts 
+            hasOptions={this.state.workouts.length > 0}
+            workouts={this.state.workouts} 
+        />
       </div>
     );
   }

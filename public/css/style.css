@@ -13,11 +13,13 @@ h1 {
   color: white;
 }
 
-h2,
-h3,
-h4,
-h5 {
+h2,h3,h4,h5 {
   color: #222222;
+}
+
+.increaseFont {
+  font-size: 170%;
+  font-weight: bold;
 }
 
 .font-bold {
@@ -31,6 +33,10 @@ h5 {
 
 .right {
   float: right;
+}
+
+.left {
+  float: left;
 }
 
 .center-margin {
@@ -48,19 +54,23 @@ nav {
   text-align: center;
 }
 
-#navbarArea {
-  background-color: #222222 !important;
-  padding: 1px;
-  padding-left: 15px;
-}
-
-#navbarNav {
-  font-size: 140%;
-}
-
 /* FORM STYLE */
 form {
   margin: 0 auto;
   margin-top: 30px;
   margin-bottom: 45px;
+}
+
+/* WORKOUTS HEADER */
+#headLine {
+  border: 3px solid gray;
+  padding: 15px 0px 15px 0px;
+  margin: 0 auto;
+  margin-bottom: 5px; 
+}
+
+#selection {
+  border: 1px solid gray;
+  padding: 15px 0px 15px 0px;
+  margin: 3px; 
 }
