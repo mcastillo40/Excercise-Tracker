@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 
 const { Pool } = require("pg");
 
-const pg = new Pool({
+const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: true,
 });
@@ -37,7 +37,7 @@ app.use(function(request, response, next) {
 // Get function that returns all items in the database
 // id, name, reps, weight, date, and lbs(1 for lbs, 0 for kg)
 app.get("/workouts", function(req, res){
-    pg.connect((err, db, done) => {
+    pool.connect((err, db, done) => {
         if(err)
             return res.status(400).send(err);
         else {
@@ -63,7 +63,7 @@ app.post("/new-workout", function (req, res) {
 
     const data = [name, reps, weight, lbs, date];
 
-    pg.pool.connect((err, db, done) => {
+    pool.connect((err, db, done) => {
         if(err)
             return res.status(400).send(err);
         else {
@@ -91,7 +91,7 @@ app.put("/update", function(req, res){
 
     const data = [name, reps, weight, date, lbs, id];
 
-    pg.pool.connect((err, db, done) => {
+    pool.connect((err, db, done) => {
         if(err) {
             console.log(err);
             return res.status(400).send(err);
@@ -116,7 +116,7 @@ app.put("/update", function(req, res){
 app.delete("/delete-workout/:id", function(req, res){
     let id = req.params.id;
 
-    pg.pool.connect((err, db, done) => {
+    pool.connect((err, db, done) => {
         if(err) {
             console.log(err);
             return status(400).send(err);
@@ -139,7 +139,7 @@ app.delete("/delete-workout/:id", function(req, res){
 app.delete("/delete-all/:id", function(req, res){
     let tableName = req.params.id; 
 
-    pg.pool.connect((err, db, done) => {
+    pool.connect((err, db, done) => {
         if(err) 
             return res.status(400).send(err);
         else {
