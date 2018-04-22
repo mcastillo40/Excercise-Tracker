@@ -39,8 +39,6 @@ export default class EditWorkout extends React.Component {
       date: this.refs.date.value
     };
 
-    console.log("data: ", data);
-
     let request = new Request("http://localhost:5000/update", {
       method: "PUT",
       headers: new Headers({ "Content-Type": "application/json" }),
@@ -59,19 +57,16 @@ export default class EditWorkout extends React.Component {
             return response.json();
         })
         .then(data => {
-            console.log("here");
             let updatedWorkout = data.find(updatedWorkout => {
                 return updatedWorkout.id === workoutId
             });
 
-            this.props.handleEdit(updatedWorkout);
+            this.props.editItem(updatedWorkout);
         })
       })
       .catch(err => {
         return err;
       });
-
-      //this.props.handleEdit(workoutId);
 
       this.handleCloseModal();
   }

@@ -42,8 +42,6 @@ export default class AddWorkout extends React.Component {
         lbs: "FALSE",
         date: "1989-10-08"
     };
-    
-    console.log("this data: ", data);
 
     // Initialize request data
     let request = new Request("http://localhost:5000/new-workout", {

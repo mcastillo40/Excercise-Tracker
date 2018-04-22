@@ -11,7 +11,7 @@ const Workout = props => {
       <div className="col-sm-2"> {props.workoutInfo.date} </div>
       <div className="col-sm-2">
         <EditWorkout 
-          handleEdit={props.handleEdit} 
+          editItem={props.editItem} 
           workoutInfo={props.workoutInfo}
         />
       </div>
@@ -28,12 +28,3 @@ const Workout = props => {
 };
 
 export default Workout;
-
-// <EditWorkout handleEdit={props.handleEdit} workoutInfo={props.workoutInfo}/>
-
-// <button
-//           className="btn"
-//           onClick={id => props.handleEdit(props.workoutInfo.id)}
-//         >
-//           Edit
-//         </button>

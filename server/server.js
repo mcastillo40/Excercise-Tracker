@@ -65,8 +65,8 @@ app.post("/new-workout", function (req, res) {
     });
 });
 
+// Edits a specific workout in the database
 app.put("/update", function(req, res){
-
     const id= req.body.id;
     const name = req.body.name; 
     const reps = req.body.reps;
@@ -97,6 +97,7 @@ app.put("/update", function(req, res){
     });
 });
 
+// Deletes a specific workout
 app.delete("/delete-workout/:id", function(req, res){
     let id = req.params.id;
 
@@ -119,6 +120,7 @@ app.delete("/delete-workout/:id", function(req, res){
     });
 });
 
+// Deletes all items from the table
 app.delete("/delete-all/:id", function(req, res){
     let tableName = req.params.id; 
 

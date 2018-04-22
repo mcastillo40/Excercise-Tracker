@@ -21,6 +21,7 @@ class ExcerciseApp extends React.Component {
     this.editItem = this.editItem.bind(this);
   }
 
+  // When component mounts get all items from the database
   componentDidMount() {
     fetch("http://localhost:5000/workouts")
       .then(response => {
@@ -34,52 +35,45 @@ class ExcerciseApp extends React.Component {
       });
   }
 
+  // Function is to set react-modal
   componentWillMount() {
     ReactModal.setAppElement('body');
   }
 
+  // Function adds a workout to the state
   addItem(item) {
     this.setState(prevState => ({
       workouts: prevState.workouts.concat(item)
     }));
   }
 
+  // Function obtains an edited item which it uses to change the 
+  // that item in the state  
   editItem(item) {
     let workouts = this.state.workouts;
+
+    // Find the workout in the state workouts array
     let currentWorkout = workouts.find(currentWorkout => {
       return currentWorkout.id === item.id
     });
 
     let index = workouts.indexOf(currentWorkout);
 
-    console.log("workouts", workouts);
-    console.log("Index", index);
-
     workouts.splice(index, 1, item);
 
     this.setState(() => ({
       workouts: workouts
     }));
-
-    //console.log("here ", this.setState(prevState));
-    // console.log("THIS: ", workouts.indexOf(currentWorkout));
-    // console.log("prev: ", prevState.workouts);
-
-    // //let data = workouts.filter(item => itemToChange === item.id);
-
-    // console.log("DATA: ", data)
-
-    // this.setState(prevState => ({
-    //    workouts: prevState.workouts.filter(item => itemToChange === item.id)
-    // }));
   }
 
+  // Function deletes workout passed from the state
   deleteItem(itemToRemove) {
     this.setState(prevState => ({
       workouts: prevState.workouts.filter(item => itemToRemove !== item.id)
     }));
   }
 
+  // This clears all the items from the state
   deleteAll() {
     this.setState(() => ({
       workouts: []

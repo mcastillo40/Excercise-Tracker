@@ -7,9 +7,9 @@ export default class Workouts extends React.Component {
     super(props);
     this.handleRemoveAll = this.handleRemoveAll.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
   }
 
+  // This function sends a delete all request to the database
   handleRemoveAll() {
     let table = this.props.table;
 
@@ -29,6 +29,7 @@ export default class Workouts extends React.Component {
       });
   }
 
+  // Function makes a request to delete a specific workout
   handleRemove(id) {
     let request = new Request(
       `http://localhost:5000/delete-workout/${id}`,
@@ -47,11 +48,6 @@ export default class Workouts extends React.Component {
       .catch(err => {
         return err;
       });
-  }
-
-  handleEdit(item) {
-    console.log("Edit Select Item", item);
-    this.props.editItem(item)
   }
 
   render() {
@@ -77,7 +73,7 @@ export default class Workouts extends React.Component {
             key={workout.id}
             workoutInfo={workout}
             handleRemove={this.handleRemove}
-            handleEdit={this.handleEdit}
+            editItem={this.props.editItem}
           />
         ))}
       </div>
