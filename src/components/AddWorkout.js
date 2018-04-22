@@ -5,12 +5,8 @@ export default class AddWorkout extends React.Component {
     super(props);
 
     this.state = {
-      name_valid: false,
-      rep_valid: false,
-      weight_valid: false,
       lbs_valid: false,
       date_valid: false,
-      formValid: false
     };
 
     this.handleDateInput = this.handleDateInput.bind(this);
@@ -36,16 +32,21 @@ export default class AddWorkout extends React.Component {
         alert("Must Enter 0 or 1 for type of weight");
     }
 
+    let newName = "testThis";
+    newName.trim();
+
     let data = {
-        name: "Another this121",
+        name: newName,
         reps: "12",
         weight: "120",
         lbs: "FALSE",
         date: "1989-10-08"
     };
     
+    console.log("this data: ", data);
+
     // Initialize request data
-    let request = new Request("http://localhost:5000/api/new-workout", {
+    let request = new Request("http://localhost:5000/new-workout", {
         method: "POST",
         headers: new Headers({"Content-Type": "application/json"}),
         body: JSON.stringify(data)
@@ -57,7 +58,7 @@ export default class AddWorkout extends React.Component {
         .then(response => {
             return response.json()
             .then(() => {
-                return fetch("http://localhost:5000/api/workouts")
+                return fetch("http://localhost:5000/workouts")
             })
             .then( response => {
                 return response.json()
@@ -106,7 +107,6 @@ export default class AddWorkout extends React.Component {
             <input
               type="text"
               className="form-control"
-              value={this.state.name}
               ref="name"
               name="name"
               placeholder="Workout Name"

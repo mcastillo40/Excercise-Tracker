@@ -13,7 +13,7 @@ export default class Workouts extends React.Component {
   handleRemoveAll() {
     let table = this.props.table;
 
-    let request = new Request(`http://localhost:5000/api/delete-all/${table}`, {
+    let request = new Request(`http://localhost:5000/delete-all/${table}`, {
       method: "DELETE"
     });
 
@@ -31,7 +31,7 @@ export default class Workouts extends React.Component {
 
   handleRemove(id) {
     let request = new Request(
-      `http://localhost:5000/api/delete-item/${id}`,
+      `http://localhost:5000/delete-workout/${id}`,
       {
         method: "DELETE"
       }
@@ -42,17 +42,16 @@ export default class Workouts extends React.Component {
         return response.json();
       })
       .then(() => {
-          console.log("item: ", id)
         this.props.deleteItem(id);
       })
       .catch(err => {
-        console.log("this: ", err);
         return err;
       });
   }
 
-  handleEdit(current) {
-    console.log("Edit Select", current);
+  handleEdit(item) {
+    console.log("Edit Select Item", item);
+    this.props.editItem(item)
   }
 
   render() {

@@ -22,7 +22,7 @@ class ExcerciseApp extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:5000/api/workouts")
+    fetch("http://localhost:5000/workouts")
       .then(response => {
         return response.json();
       })
@@ -44,6 +44,36 @@ class ExcerciseApp extends React.Component {
     }));
   }
 
+  editItem(item) {
+    let workouts = this.state.workouts;
+    let currentWorkout = workouts.find(currentWorkout => {
+      return currentWorkout.id === item.id
+    });
+
+    let index = workouts.indexOf(currentWorkout);
+
+    console.log("workouts", workouts);
+    console.log("Index", index);
+
+    workouts.splice(index, 1, item);
+
+    this.setState(() => ({
+      workouts: workouts
+    }));
+
+    //console.log("here ", this.setState(prevState));
+    // console.log("THIS: ", workouts.indexOf(currentWorkout));
+    // console.log("prev: ", prevState.workouts);
+
+    // //let data = workouts.filter(item => itemToChange === item.id);
+
+    // console.log("DATA: ", data)
+
+    // this.setState(prevState => ({
+    //    workouts: prevState.workouts.filter(item => itemToChange === item.id)
+    // }));
+  }
+
   deleteItem(itemToRemove) {
     this.setState(prevState => ({
       workouts: prevState.workouts.filter(item => itemToRemove !== item.id)
@@ -54,10 +84,6 @@ class ExcerciseApp extends React.Component {
     this.setState(() => ({
       workouts: []
     }));
-  }
-
-  editItem(item) {
-
   }
 
   render() {

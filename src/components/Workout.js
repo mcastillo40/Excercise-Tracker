@@ -10,7 +10,10 @@ const Workout = props => {
       
       <div className="col-sm-2"> {props.workoutInfo.date} </div>
       <div className="col-sm-2">
-        <EditWorkout workoutInfo={props.workoutInfo}/>
+        <EditWorkout 
+          handleEdit={props.handleEdit} 
+          workoutInfo={props.workoutInfo}
+        />
       </div>
       <div className="col-sm-2">
         <button
@@ -25,6 +28,8 @@ const Workout = props => {
 };
 
 export default Workout;
+
+// <EditWorkout handleEdit={props.handleEdit} workoutInfo={props.workoutInfo}/>
 
 // <button
 //           className="btn"
