@@ -18,21 +18,21 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/', (req, res) => {
-  res.send({ hi: "there"});
-});
-
-// app.use(function(request, response, next) {
-//   response.header("Access-Control-Allow-Origin", "*");
-//   response.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
+// app.get('/', (req, res) => {
+//   res.send({ hi: "there"});
 // });
 
-// // Get function that returns all items in the database
-// // id, name, reps, weight, date, and lbs(1 for lbs, 0 for kg)
+app.use(function(request, response, next) {
+  response.header("Access-Control-Allow-Origin", "*");
+  response.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
+// Get function that returns all items in the database
+// id, name, reps, weight, date, and lbs(1 for lbs, 0 for kg)
 // app.get("/workouts", function(req, res){
 //     pg.connect((err, db, done) => {
 //         if(err)
@@ -42,14 +42,15 @@ app.get('/', (req, res) => {
 //                 done();
 //                 if(err)
 //                     return res.status(400).send(err);
-//                 else 
-//                     return res.status(200).send(table.rows);
+//                 else {
+//                   return res.status(200).send(table.rows);
+//                 }
 //             });
 //         }
 //     });
 // });
 
-// // Post function that posts workout to the database
+//Post function that posts workout to the database
 // app.post("/new-workout", function (req, res) {
 //     const name = req.body.name; 
 //     const reps = req.body.reps;
@@ -59,7 +60,7 @@ app.get('/', (req, res) => {
 
 //     const data = [name, reps, weight, lbs, date];
 
-//     pg.connect((err, db, done) => {
+//     pg.pool.connect((err, db, done) => {
 //         if(err)
 //             return res.status(400).send(err);
 //         else {
@@ -87,7 +88,7 @@ app.get('/', (req, res) => {
 
 //     const data = [name, reps, weight, date, lbs, id];
 
-//     pg.connect((err, db, done) => {
+//     pg.pool.connect((err, db, done) => {
 //         if(err) {
 //             console.log(err);
 //             return res.status(400).send(err);
@@ -112,7 +113,7 @@ app.get('/', (req, res) => {
 // app.delete("/delete-workout/:id", function(req, res){
 //     let id = req.params.id;
 
-//     pg.connect((err, db, done) => {
+//     pg.pool.connect((err, db, done) => {
 //         if(err) {
 //             console.log(err);
 //             return status(400).send(err);
@@ -135,7 +136,7 @@ app.get('/', (req, res) => {
 // app.delete("/delete-all/:id", function(req, res){
 //     let tableName = req.params.id; 
 
-//     pg.connect((err, db, done) => {
+//     pg.pool.connect((err, db, done) => {
 //         if(err) 
 //             return res.status(400).send(err);
 //         else {
