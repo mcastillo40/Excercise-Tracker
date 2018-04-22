@@ -3,7 +3,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const publicPath = path.join(__dirname, '..', 'public');
-//const pg = require("./config/keys"); // change for heroku
 
 const PORT = process.env.PORT || 5000;
 
