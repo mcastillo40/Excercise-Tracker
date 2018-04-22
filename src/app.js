@@ -84,18 +84,20 @@ class ExcerciseApp extends React.Component {
     return (
       <div>
         <Header title={this.state.title} />
-        <AddWorkout workouts={this.state.workouts} addItem={this.addItem} />
-        <Workouts
-          hasOptions={this.state.workouts.length > 0}
-          deleteItem={this.deleteItem}
-          editItem={this.editItem}
-          deleteAll={this.deleteAll}
-          workouts={this.state.workouts}
-          table={this.state.table}
-        />
+        
       </div>
     );
   }
 }
 
 ReactDOM.render(<ExcerciseApp />, document.getElementById("app"));
+
+// <AddWorkout workouts={this.state.workouts} addItem={this.addItem} />
+//         <Workouts
+//           hasOptions={this.state.workouts.length > 0}
+//           deleteItem={this.deleteItem}
+//           editItem={this.editItem}
+//           deleteAll={this.deleteAll}
+//           workouts={this.state.workouts}
+//           table={this.state.table}
+//         />
