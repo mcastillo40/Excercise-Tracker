@@ -7,7 +7,7 @@ const publicPath = path.join(__dirname, '..', 'public');
 
 const PORT = process.env.PORT || 5000;
 
-const pg = require("pg");
+const { Pool } = require("pg");
 
 const pg = new Pool({
     connectionString: process.env.DATABASE_URL,
