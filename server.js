@@ -1,9 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const pg = require("./config/keys"); // change for heroku
+//const pg = require("./config/keys"); // change for heroku
 
-//const pg = require("pg");
+const pg = require("pg");
 
 // const pg = new Pool({
 //     connectionString: process.env.DATABASE_URL,
