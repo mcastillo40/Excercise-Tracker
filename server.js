@@ -1,9 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-//const pg = require("./config/keys"); // change for heroku
+const pg = require("./config/keys"); // change for heroku
 
-const pg = require("pg");
+//const pg = require("pg");
 
 // const pg = new Pool({
 //     connectionString: process.env.DATABASE_URL,
@@ -17,6 +17,10 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.get('/', (req, res) => {
+  res.send({ hi: "there"});
+});
 
 // app.use(function(request, response, next) {
 //   response.header("Access-Control-Allow-Origin", "*");
