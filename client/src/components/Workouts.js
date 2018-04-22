@@ -1,6 +1,5 @@
 import React from "react";
 import Workout from "./Workout";
-import EditWorkout from "./EditWorkout"
 
 export default class Workouts extends React.Component {
   constructor(props) {
@@ -80,3 +79,10 @@ export default class Workouts extends React.Component {
     );
   }
 }
+
+          // <Workout
+          //   key={workout.id}
+          //   workoutInfo={workout}
+          //   handleRemove={this.handleRemove}
+          //   editItem={this.props.editItem}
+          // />

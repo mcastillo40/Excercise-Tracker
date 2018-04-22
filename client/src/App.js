@@ -1,16 +1,16 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React, { Component } from 'react';
+import './App.css';
 import ReactModal from "react-modal"
 import Header from "./components/Header";
 import AddWorkout from "./components/AddWorkout";
 import Workouts from "./components/Workouts";
 
-class ExcerciseApp extends React.Component {
+class ExcerciseApp extends Component {
   constructor() {
     super();
 
     this.state = {
-      title: "Excercise New Tracker",
+      title: "Excercise Tracker",
       table: "workouts",
       workouts: []
     };
@@ -21,19 +21,18 @@ class ExcerciseApp extends React.Component {
     this.editItem = this.editItem.bind(this);
   }
 
-  // When component mounts get all items from the database
+// When component mounts get all items from the database
   componentDidMount() {
-    console.log("APP");
-    // fetch("http://localhost:5000/workouts")
-    //   .then(response => {
-    //     return response.json();
-    //   })
-    //   .then(data => {
-    //     this.setState({ workouts: data });
-    //   })
-    //   .catch(err => {
-    //     return err;
-    //   });
+    fetch("http://localhost:5000/workouts")
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        this.setState(() => { workouts: data });
+      })
+      .catch(err => {
+        return err;
+      });
   }
 
   // Function is to set react-modal
@@ -85,29 +84,18 @@ class ExcerciseApp extends React.Component {
     return (
       <div>
         <Header title={this.state.title} />
-          <p> MORE STUFF </p>
-          <AddWorkout workouts={this.state.workouts} addItem={this.addItem} />
-          <Workouts
-            hasOptions={this.state.workouts.length > 0}
-            deleteItem={this.deleteItem}
-            editItem={this.editItem}
-            deleteAll={this.deleteAll}
-            workouts={this.state.workouts}
-            table={this.state.table}
-          />
+        <AddWorkout workouts={this.state.workouts} addItem={this.addItem} />
+        <Workouts
+          hasOptions={this.state.workouts.length > 0}
+          deleteItem={this.deleteItem}
+          editItem={this.editItem}
+          deleteAll={this.deleteAll}
+          workouts={this.state.workouts}
+          table={this.state.table}
+        />
       </div>
     );
   }
 }
 
-ReactDOM.render(<ExcerciseApp />, document.getElementById("app"));
-
-// <AddWorkout workouts={this.state.workouts} addItem={this.addItem} />
-// <Workouts
-//   hasOptions={this.state.workouts.length > 0}
-//   deleteItem={this.deleteItem}
-//   editItem={this.editItem}
-//   deleteAll={this.deleteAll}
-//   workouts={this.state.workouts}
-//   table={this.state.table}
-// />
+export default ExcerciseApp;

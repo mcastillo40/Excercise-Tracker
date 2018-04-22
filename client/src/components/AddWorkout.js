@@ -1,14 +1,11 @@
 import React from "react";
-import { validateDate } from "../../public/js-helper/validatedate";
+import { validateDate } from "../js-helper/validatedate";
 
 export default class AddWorkout extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      lbs_valid: true,
-      date_valid: true
-    };
+    this.state = {};
 
     this.workoutSubmit = this.workoutSubmit.bind(this);
   }
@@ -24,16 +21,26 @@ export default class AddWorkout extends React.Component {
       date: this.refs.date.value
     };
 
+    let formFilled = true;    
+    let lbs_valid = true;
+    let date_valid = true; 
+
+    // Validate that all sections were completed
+    if (data.name === "" || data.reps === "" || data.weight === "" || data.lbs === "" || data.date === "") {
+      formFilled = false;
+    }
+
     // Validate that 1 for Lbs was entered or 0 for Kgs was entered
-    if (data.lbs > 1 || data.lbs < 0 || data.lbs == "") {
-      this.state.lbs_valid = false; 
+    if (data.lbs > 1 || data.lbs < 0) {
+      lbs_valid = false;
     }
     
     // Validate that date was inputted correctly
-    if(!validateDate(data.date))
-      this.state.date_valid = false;
+    if(!validateDate(data.date)) {
+      date_valid = false;
+    }
 
-    if (this.state.lbs_valid && this.state.date_valid) {
+    if (lbs_valid && date_valid && formFilled) {
       // Initialize request data
       let request = new Request("http://localhost:5000/new-workout", {
         method: "POST",
@@ -73,12 +80,14 @@ export default class AddWorkout extends React.Component {
       this.refs.date.value = "";
     }
     else {
-      if(!this.state.lbs_valid && !this.state.date_valid)
+      if(!lbs_valid && !date_valid)
         alert("Error: Type of weight and date format are incorrect");
-      else if (!this.state.date_valid)
+      else if (!date_valid)
         alert("Error: Date format should be MM-DD-YYYY");
-      else if (!this.state.lbs_valid)
+      else if (!lbs_valid)
         alert("Error: Type of weight should be '1' for lbs or '0' for kgs");
+      else if (!formFilled)
+        alert("Error: Must complete all entries");
     }
   }
 
@@ -95,10 +104,10 @@ export default class AddWorkout extends React.Component {
             <input
               type="text"
               className="form-control"
+              value={this.state.name}
               ref="name"
               name="name"
               placeholder="Workout Name"
-              required
             />
           </div>
           <div className="form-group">
@@ -109,7 +118,6 @@ export default class AddWorkout extends React.Component {
               ref="reps"
               name="reps"
               placeholder="Number of Reps"
-              required
             />
           </div>
           <div className="form-group">
@@ -120,7 +128,6 @@ export default class AddWorkout extends React.Component {
               ref="weight"
               name="weight"
               placeholder="Weight"
-              required
             />
           </div>
           <div className="form-group">
@@ -132,7 +139,6 @@ export default class AddWorkout extends React.Component {
               ref="lbs"
               name="lbs"
               placeholder="Enter 1 for lbs or 0 for kgs"
-              required
             />
           </div>
           <div className="form-group">
@@ -143,7 +149,6 @@ export default class AddWorkout extends React.Component {
               ref="date"
               name="date"
               placeholder="Date: MM-DD-YYYY"
-              required
             />
           </div>
           <div className="form-group">

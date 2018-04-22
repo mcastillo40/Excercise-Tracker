@@ -1,6 +1,6 @@
 import React from "react";
 import ReactModal from "react-modal";
-import { validateDate } from "../../public/js-helper/validatedate";
+import { validateDate } from "../js-helper/validatedate";
 
 export default class EditWorkout extends React.Component {
   constructor() {
@@ -38,22 +38,31 @@ export default class EditWorkout extends React.Component {
       date: this.refs.date.value
     };
 
-    // Validate that 1 for Lbs was entered or 0 for Kgs was entered
-    if (data.lbs > 1 || data.lbs < 0 || data.lbs == "") {
-      this.state.lbs_valid = false;
+    let formFilled = true;    
+    let lbs_valid = true;
+    let date_valid = true; 
+
+    // Validate that all sections were completed
+    if (data.name === "" || data.reps === "" || data.weight === "" || data.lbs === "" || data.date === "") {
+      formFilled = false;
     }
 
+    // Validate that 1 for Lbs was entered or 0 for Kgs was entered
+    if (data.lbs > 1 || data.lbs < 0) {
+      lbs_valid = false;
+    }
+    
     // Validate that date was inputted correctly
-    if (!validateDate(data.date)) this.state.date_valid = false;
+    if(!validateDate(data.date)) {
+      date_valid = false;
+    }
 
-    if (this.state.lbs_valid && this.state.date_valid) {
+    if (lbs_valid && date_valid && formFilled) {
       let request = new Request("http://localhost:5000/update", {
         method: "PUT",
         headers: new Headers({ "Content-Type": "application/json" }),
         body: JSON.stringify(data)
       });
-
-      let self = this;
 
       fetch(request)
         .then(response => {
@@ -78,12 +87,14 @@ export default class EditWorkout extends React.Component {
         });
       this.handleCloseModal();
     } else {
-      if (!this.state.lbs_valid && !this.state.date_valid)
+      if(!lbs_valid && !date_valid)
         alert("Error: Type of weight and date format are incorrect");
-      else if (!this.state.date_valid)
+      else if (!date_valid)
         alert("Error: Date format should be MM-DD-YYYY");
-      else if (!this.state.lbs_valid)
+      else if (!lbs_valid)
         alert("Error: Type of weight should be '1' for lbs or '0' for kgs");
+      else if (!formFilled)
+        alert("Error: Must complete all entries");
     }
   }
 
@@ -161,13 +172,6 @@ export default class EditWorkout extends React.Component {
               />
 
             </div>
-            <div className="form-group has-error has-feedback">
-                <div className="col-sm-10 has-error">
-                    <input type="text" className="form-control has-success" id="inputError" />
-                    <span className="glyphicon glyphicon-remove form-control-feedback"></span>
-                </div>
-            </div>
-
             <div className="form-group">
               <span className="col-sm-1" />
               <button className="btn btn-primary col-sm-5">Submit</button>

@@ -2,9 +2,9 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const publicPath = path.join(__dirname, '..', 'client/public/');
-
-console.log("public: ", publicPath);
+//const publicPath = path.join(__dirname, '..', 'client/public/');
+//const pg = require("./config/keys");
+//console.log("public: ", publicPath);
 
 const PORT = process.env.PORT || 5000;
 
@@ -21,12 +21,24 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(express.static(publicPath));
+//app.use(express.static(publicPath));
 
-app.get('*', (req, res) => {
-    console.log("Here", path.join(publicPath));
-    res.sendFile(path.join(publicPath));
-});
+if (process.env.NODE_ENV === 'production') {
+  // Will serve production assets
+  app.use(express.static('client/build'));
+
+  // Will serve up index.html if route is not recognized
+  const path = require("path");
+  
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.js"));
+  });
+}
+
+// app.get('*', (req, res) => {
+//     console.log("Here", path.join(publicPath));
+//     res.sendFile(path.join(publicPath));
+// });
 
 app.use(function(request, response, next) {
   response.header("Access-Control-Allow-Origin", "*");
@@ -40,7 +52,7 @@ app.use(function(request, response, next) {
 // // Get function that returns all items in the database
 // // id, name, reps, weight, date, and lbs(1 for lbs, 0 for kg)
 // app.get("/workouts", function(req, res){
-//     pool.connect((err, db, done) => {
+//     pg.pool.connect((err, db, done) => {
 //         if(err)
 //             return res.status(400).send(err);
 //         else {
@@ -66,7 +78,7 @@ app.use(function(request, response, next) {
 
 //     const data = [name, reps, weight, lbs, date];
 
-//     pool.connect((err, db, done) => {
+//     pg.pool.connect((err, db, done) => {
 //         if(err)
 //             return res.status(400).send(err);
 //         else {
@@ -94,7 +106,7 @@ app.use(function(request, response, next) {
 
 //     const data = [name, reps, weight, date, lbs, id];
 
-//     pool.connect((err, db, done) => {
+//     pg.pool.connect((err, db, done) => {
 //         if(err) {
 //             console.log(err);
 //             return res.status(400).send(err);
@@ -119,7 +131,7 @@ app.use(function(request, response, next) {
 // app.delete("/delete-workout/:id", function(req, res){
 //     let id = req.params.id;
 
-//     pool.connect((err, db, done) => {
+//     pg.pool.connect((err, db, done) => {
 //         if(err) {
 //             console.log(err);
 //             return status(400).send(err);
@@ -142,7 +154,7 @@ app.use(function(request, response, next) {
 // app.delete("/delete-all/:id", function(req, res){
 //     let tableName = req.params.id; 
 
-//     pool.connect((err, db, done) => {
+//     pg.pool.connect((err, db, done) => {
 //         if(err) 
 //             return res.status(400).send(err);
 //         else {
