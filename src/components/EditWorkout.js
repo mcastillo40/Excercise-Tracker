@@ -1,20 +1,19 @@
 import React from "react";
 import ReactModal from "react-modal";
+import { validateDate } from "../../public/js-helper/validatedate";
 
 export default class EditWorkout extends React.Component {
   constructor() {
     super();
     this.state = {
       showModal: false,
-      lbs_valid: false,
-      date_valid: false
+      lbs_valid: true,
+      date_valid: true
     };
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.editInfoSubmit = this.editInfoSubmit.bind(this);
-    this.handleDateInput = this.handleDateInput.bind(this);
-    this.handleTypeInput = this.handleTypeInput.bind(this);
   }
 
   handleOpenModal() {
@@ -39,45 +38,53 @@ export default class EditWorkout extends React.Component {
       date: this.refs.date.value
     };
 
-    let request = new Request("http://localhost:5000/update", {
-      method: "PUT",
-      headers: new Headers({ "Content-Type": "application/json" }),
-      body: JSON.stringify(data)
-    });
+    // Validate that 1 for Lbs was entered or 0 for Kgs was entered
+    if (data.lbs > 1 || data.lbs < 0 || data.lbs == "") {
+      this.state.lbs_valid = false;
+    }
 
-    let self = this;
+    // Validate that date was inputted correctly
+    if (!validateDate(data.date)) this.state.date_valid = false;
 
-    fetch(request)
-      .then(response => {
-        return response.json()
-        .then(() => {
-            return fetch("http://localhost:5000/workouts")
-        })
-        .then(response => {
-            return response.json();
-        })
-        .then(data => {
-            let updatedWorkout = data.find(updatedWorkout => {
-                return updatedWorkout.id === workoutId
-            });
-
-            this.props.editItem(updatedWorkout);
-        })
-      })
-      .catch(err => {
-        return err;
+    if (this.state.lbs_valid && this.state.date_valid) {
+      let request = new Request("http://localhost:5000/update", {
+        method: "PUT",
+        headers: new Headers({ "Content-Type": "application/json" }),
+        body: JSON.stringify(data)
       });
 
+      let self = this;
+
+      fetch(request)
+        .then(response => {
+          return response
+            .json()
+            .then(() => {
+              return fetch("http://localhost:5000/workouts");
+            })
+            .then(response => {
+              return response.json();
+            })
+            .then(data => {
+              let updatedWorkout = data.find(updatedWorkout => {
+                return updatedWorkout.id === workoutId;
+              });
+
+              this.props.editItem(updatedWorkout);
+            });
+        })
+        .catch(err => {
+          return err;
+        });
       this.handleCloseModal();
-  }
-
-  handleDateInput(e) {}
-
-  handleTypeInput(e) {
-    if (e.target.value == "") this.state.lbs_valid = false;
-    else if (e.target.value == 0 || e.target.value == 1)
-      this.state.lbs_valid = true;
-    else this.state.lbs_valid = false;
+    } else {
+      if (!this.state.lbs_valid && !this.state.date_valid)
+        alert("Error: Type of weight and date format are incorrect");
+      else if (!this.state.date_valid)
+        alert("Error: Date format should be MM-DD-YYYY");
+      else if (!this.state.lbs_valid)
+        alert("Error: Type of weight should be '1' for lbs or '0' for kgs");
+    }
   }
 
   render() {
@@ -90,9 +97,10 @@ export default class EditWorkout extends React.Component {
           isOpen={this.state.showModal}
           contentLabel="onRequestClose Example"
           onRequestClose={this.handleCloseModal}
+          className="modalStyle"
         >
           <form
-            className="col-sm-4"
+            className="col-sm-8"
             id="addWorkout"
             onSubmit={this.editInfoSubmit}
             ref="workoutForm"
@@ -101,9 +109,10 @@ export default class EditWorkout extends React.Component {
               <input
                 type="text"
                 className="form-control"
-                placeholder={`Name: ${this.props.workoutInfo.name}`}
                 defaultValue={this.props.workoutInfo.name}
                 ref="name"
+                name="name"
+                placeholder={`Name: ${this.props.workoutInfo.name}`}
                 required
               />
             </div>
@@ -138,7 +147,6 @@ export default class EditWorkout extends React.Component {
                     ? "Lbs (Enter 0 for Kgs)"
                     : "Kgs (Enter 1 for Lbs)"
                 }
-                onChange={event => this.handleTypeInput(event)}
                 required
               />
             </div>
@@ -149,10 +157,17 @@ export default class EditWorkout extends React.Component {
                 defaultValue={this.props.workoutInfo.date}
                 ref="date"
                 placeholder={`Date: ${this.props.workoutInfo.date}`}
-                onChange={event => this.handleDateInput(event)}
                 required
               />
+
             </div>
+            <div className="form-group has-error has-feedback">
+                <div className="col-sm-10 has-error">
+                    <input type="text" className="form-control has-success" id="inputError" />
+                    <span className="glyphicon glyphicon-remove form-control-feedback"></span>
+                </div>
+            </div>
+
             <div className="form-group">
               <span className="col-sm-1" />
               <button className="btn btn-primary col-sm-5">Submit</button>

@@ -74,3 +74,16 @@ form {
   padding: 15px 0px 15px 0px;
   margin: 3px; 
 }
+
+.modalStyle {
+      position: absolute;
+      top: 40px;
+      left: 25%;
+      right: 25%;
+      bottom: 25%;
+      border: 1px solid #ccc;
+      background: #fff;
+      overflow: auto;
+      outline: none;
+      padding: 20px;
+}

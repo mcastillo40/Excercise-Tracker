@@ -1,105 +1,95 @@
 import React from "react";
+import { validateDate } from "../../public/js-helper/validatedate";
 
 export default class AddWorkout extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      lbs_valid: false,
-      date_valid: false,
+      lbs_valid: true,
+      date_valid: true
     };
 
-    this.handleDateInput = this.handleDateInput.bind(this);
-    this.handleTypeInput = this.handleTypeInput.bind(this);
     this.workoutSubmit = this.workoutSubmit.bind(this);
   }
 
   workoutSubmit(e) {
     e.preventDefault();
 
-    // let data = {
-    //     name: this.refs.name.value.trim(),
-    //     reps: this.refs.reps.value,
-    //     weight: this.refs.weight.value,
-    //     lbs: this.refs.lbs.value,
-    //     date: this.refs.date.value
-    // };
-
-    if (this.state.lbs_valid){
-
-    }
-    else{
-        alert("Must Enter 0 or 1 for type of weight");
-    }
-
-    let newName = "testThis";
-    newName.trim();
-
     let data = {
-        name: newName,
-        reps: "12",
-        weight: "120",
-        lbs: "FALSE",
-        date: "1989-10-08"
+      name: this.refs.name.value.trim(),
+      reps: this.refs.reps.value,
+      weight: this.refs.weight.value,
+      lbs: this.refs.lbs.value,
+      date: this.refs.date.value
     };
 
-    // Initialize request data
-    let request = new Request("http://localhost:5000/new-workout", {
+    // Validate that 1 for Lbs was entered or 0 for Kgs was entered
+    if (data.lbs > 1 || data.lbs < 0 || data.lbs == "") {
+      this.state.lbs_valid = false; 
+    }
+    
+    // Validate that date was inputted correctly
+    if(!validateDate(data.date))
+      this.state.date_valid = false;
+
+    if (this.state.lbs_valid && this.state.date_valid) {
+      // Initialize request data
+      let request = new Request("http://localhost:5000/new-workout", {
         method: "POST",
-        headers: new Headers({"Content-Type": "application/json"}),
+        headers: new Headers({ "Content-Type": "application/json" }),
         body: JSON.stringify(data)
-    }); 
+      });
 
-    let self = this;
+      let self = this;
 
-    fetch(request)
+      fetch(request)
         .then(response => {
-            return response.json()
+          return response
+            .json()
             .then(() => {
-                return fetch("http://localhost:5000/workouts")
+              return fetch("http://localhost:5000/workouts");
             })
-            .then( response => {
-                return response.json()
+            .then(response => {
+              return response.json();
             })
-            .then( data => {
-                let lastItemLength = data.length - 1;
-                let lastItem = data[lastItemLength];
-                
-                // Add item that was just placed into the database
-                self.props.addItem(lastItem);
-            })
+            .then(data => {
+              let lastItemLength = data.length - 1;
+              let lastItem = data[lastItemLength];
+
+              // Add item that was just placed into the database
+              self.props.addItem(lastItem);
+            });
         })
-        .catch( err => {
-            return err;
-        });   
+        .catch(err => {
+          return err;
+        });
 
-    // Change values to empty
-    this.refs.name.value = "";
-    this.refs.reps.value = "";
-    this.refs.weight.value = "";
-    this.refs.lbs.value = "";
-    this.refs.date.value = "";
-  };
-
-  handleDateInput(e) { };
-
-  handleTypeInput(e) {
-    if (e.target.value == "")
-        this.state.lbs_valid = false;
-    else if (e.target.value == 0 || e.target.value == 1)
-        this.state.lbs_valid = true;
-    else 
-        this.state.lbs_valid = false
-  };
+      // Change values to empty
+      this.refs.name.value = "";
+      this.refs.reps.value = "";
+      this.refs.weight.value = "";
+      this.refs.lbs.value = "";
+      this.refs.date.value = "";
+    }
+    else {
+      if(!this.state.lbs_valid && !this.state.date_valid)
+        alert("Error: Type of weight and date format are incorrect");
+      else if (!this.state.date_valid)
+        alert("Error: Date format should be MM-DD-YYYY");
+      else if (!this.state.lbs_valid)
+        alert("Error: Type of weight should be '1' for lbs or '0' for kgs");
+    }
+  }
 
   render() {
     return (
       <div>
-        <form 
-            className="col-sm-4" 
-            id="addWorkout" 
-            onSubmit={this.workoutSubmit}
-            ref="workoutForm"
+        <form
+          className="col-sm-4"
+          id="addWorkout"
+          onSubmit={this.workoutSubmit}
+          ref="workoutForm"
         >
           <div className="form-group">
             <input
@@ -117,6 +107,7 @@ export default class AddWorkout extends React.Component {
               className="form-control"
               value={this.state.reps}
               ref="reps"
+              name="reps"
               placeholder="Number of Reps"
               required
             />
@@ -127,18 +118,20 @@ export default class AddWorkout extends React.Component {
               className="form-control"
               value={this.state.weight}
               ref="weight"
+              name="weight"
               placeholder="Weight"
               required
             />
           </div>
           <div className="form-group">
             <input
+              id="weightType"
               type="number"
               className="form-control"
               value={this.state.lbs}
               ref="lbs"
+              name="lbs"
               placeholder="Enter 1 for lbs or 0 for kgs"
-              onChange={event => this.handleTypeInput(event)}
               required
             />
           </div>
@@ -148,15 +141,13 @@ export default class AddWorkout extends React.Component {
               className="form-control"
               value={this.state.date}
               ref="date"
-              placeholder="Date: YYYY-MM-DD"
-              onChange={event => this.handleDateInput(event)}
+              name="date"
+              placeholder="Date: MM-DD-YYYY"
               required
             />
           </div>
           <div className="form-group">
-            <button className="btn btn-primary col-sm-12">
-              Submit
-            </button>
+            <button className="btn btn-primary col-sm-12">Add Workout</button>
           </div>
         </form>
       </div>
