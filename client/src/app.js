@@ -23,16 +23,16 @@ class ExcerciseApp extends React.Component {
 
   // When component mounts get all items from the database
   componentDidMount() {
-    // fetch("http://localhost:5000/workouts")
-    //   .then(response => {
-    //     return response.json();
-    //   })
-    //   .then(data => {
-    //     this.setState({ workouts: data });
-    //   })
-    //   .catch(err => {
-    //     return err;
-    //   });
+    fetch("http://localhost:5000/workouts")
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        this.setState({ workouts: data });
+      })
+      .catch(err => {
+        return err;
+      });
   }
 
   // Function is to set react-modal
@@ -84,6 +84,15 @@ class ExcerciseApp extends React.Component {
     return (
       <div>
         <Header title={this.state.title} />
+        // <AddWorkout workouts={this.state.workouts} addItem={this.addItem} />
+<Workouts
+  hasOptions={this.state.workouts.length > 0}
+  deleteItem={this.deleteItem}
+  editItem={this.editItem}
+  deleteAll={this.deleteAll}
+  workouts={this.state.workouts}
+  table={this.state.table}
+/>
       </div>
     );
   }
