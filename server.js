@@ -2,7 +2,9 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const publicPath = path.join(__dirname, '..', 'public');
+const publicPath = path.join(__dirname, '..', 'client/public/');
+
+console.log("public: ", publicPath);
 
 const PORT = process.env.PORT || 5000;
 
@@ -21,18 +23,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(publicPath));
 
-app.get('/', (req, res) => {
-  res.send({ hi: "there"});
+app.get('*', (req, res) => {
+    console.log("Here", path.join(publicPath));
+    res.sendFile(path.join(publicPath));
 });
 
-// app.use(function(request, response, next) {
-//   response.header("Access-Control-Allow-Origin", "*");
-//   response.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
+app.use(function(request, response, next) {
+  response.header("Access-Control-Allow-Origin", "*");
+  response.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 // // Get function that returns all items in the database
 // // id, name, reps, weight, date, and lbs(1 for lbs, 0 for kg)

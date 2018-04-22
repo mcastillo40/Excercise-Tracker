@@ -1,5 +1,7 @@
 const path = require("path");
 
+console.log("Entry: ", path.resolve(__dirname, "/src/app.js"));
+
 module.exports = (env) => {
     const isProduction = env === 'production';
     
