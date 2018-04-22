@@ -1,7 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const pg = require("./config/keys");
+//const pg = require("./config/keys"); // change for heroku
+
+const { Pool } = require("pg");
+
+const pg = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
+});
 
 const PORT = process.env.PORT || 5000;
 
@@ -23,7 +30,7 @@ app.use(function(request, response, next) {
 // Get function that returns all items in the database
 // id, name, reps, weight, date, and lbs(1 for lbs, 0 for kg)
 app.get("/workouts", function(req, res){
-    pg.pool.connect((err, db, done) => {
+    pg.connect((err, db, done) => {
         if(err)
             return res.status(400).send(err);
         else {
@@ -48,7 +55,7 @@ app.post("/new-workout", function (req, res) {
 
     const data = [name, reps, weight, lbs, date];
 
-    pg.pool.connect((err, db, done) => {
+    pg.connect((err, db, done) => {
         if(err)
             return res.status(400).send(err);
         else {
@@ -76,7 +83,7 @@ app.put("/update", function(req, res){
 
     const data = [name, reps, weight, date, lbs, id];
 
-    pg.pool.connect((err, db, done) => {
+    pg.connect((err, db, done) => {
         if(err) {
             console.log(err);
             return res.status(400).send(err);
@@ -101,7 +108,7 @@ app.put("/update", function(req, res){
 app.delete("/delete-workout/:id", function(req, res){
     let id = req.params.id;
 
-    pg.pool.connect((err, db, done) => {
+    pg.connect((err, db, done) => {
         if(err) {
             console.log(err);
             return status(400).send(err);
@@ -124,7 +131,7 @@ app.delete("/delete-workout/:id", function(req, res){
 app.delete("/delete-all/:id", function(req, res){
     let tableName = req.params.id; 
 
-    pg.pool.connect((err, db, done) => {
+    pg.connect((err, db, done) => {
         if(err) 
             return res.status(400).send(err);
         else {
