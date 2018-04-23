@@ -42,7 +42,7 @@ export default class AddWorkout extends React.Component {
 
     if (lbs_valid && date_valid && formFilled) {
       // Initialize request data
-      let request = new Request("http://localhost:5000/new-workout", {
+      let request = new Request("https://excercise-tracker.herokuapp.com/new-workout", {
         method: "POST",
         headers: new Headers({ "Content-Type": "application/json" }),
         body: JSON.stringify(data)
@@ -55,7 +55,7 @@ export default class AddWorkout extends React.Component {
           return response
             .json()
             .then(() => {
-              return fetch("http://localhost:5000/workouts");
+              return fetch("https://excercise-tracker.herokuapp.com/workouts");
             })
             .then(response => {
               return response.json();

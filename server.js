@@ -41,50 +41,53 @@ app.use(function(request, response, next) {
 
 // Get function that returns all items in the database
 // id, name, reps, weight, date, and lbs(1 for lbs, 0 for kg)
-// app.get("/workouts", function(req, res){
-//     pg.pool.connect((err, db, done) => {
-//         if(err)
-//             return res.status(400).send(err);
-//         else {
-//             db.query("SELECT *, to_char(\"date\", 'MM/DD/YYYY') AS date FROM workouts;", (err, table) => {
-//                 done();
-//                 if(err)
-//                     return res.status(400).send(err);
-//                 else {
-//                   console.log(table.rows);
-//                   return res.status(200).send(table.rows);
-//                 }
-//             });
-//         }
-//     });
-// });
+app.get("/workouts", function(req, res) {
+  pool.connect((err, db, done) => {
+    if (err) return res.status(400).send(err);
+    else {
+      db.query(
+        "SELECT *, to_char(\"date\", 'MM/DD/YYYY') AS date FROM workouts;",
+        (err, table) => {
+          done();
+          if (err) return res.status(400).send(err);
+          else {
+            console.log(table.rows);
+            return res.status(200).send(table.rows);
+          }
+        }
+      );
+    }
+  });
+});
 
-// //Post function that posts workout to the database
-// app.post("/new-workout", function (req, res) {
-//     const name = req.body.name;
-//     const reps = req.body.reps;
-//     const weight = req.body.weight;
-//     const lbs = req.body.lbs;
-//     const date = req.body.date;
+//Post function that posts workout to the database
+app.post("/new-workout", function(req, res) {
+  const name = req.body.name;
+  const reps = req.body.reps;
+  const weight = req.body.weight;
+  const lbs = req.body.lbs;
+  const date = req.body.date;
 
-//     const data = [name, reps, weight, lbs, date];
+  const data = [name, reps, weight, lbs, date];
 
-//     pg.pool.connect((err, db, done) => {
-//         if(err)
-//             return res.status(400).send(err);
-//         else {
-//             db.query("INSERT INTO workouts (name, reps, weight, lbs, date)"
-//             + "VALUES ($1, $2, $3, $4, $5);", data, (err, table) => {
-//                 if (err)
-//                     return res.status(400).send(err);
-//                 else {
-//                     db.end();
-//                     res.status(200).send({message: "Data Inserted!"});
-//                 }
-//             });
-//         }
-//     });
-// });
+  pool.connect((err, db, done) => {
+    if (err) return res.status(400).send(err);
+    else {
+      db.query(
+        "INSERT INTO workouts (name, reps, weight, lbs, date)" +
+          "VALUES ($1, $2, $3, $4, $5);",
+        data,
+        (err, table) => {
+          if (err) return res.status(400).send(err);
+          else {
+            db.end();
+            res.status(200).send({ message: "Data Inserted!" });
+          }
+        }
+      );
+    }
+  });
+});
 
 // // Edits a specific workout in the database
 // app.put("/update", function(req, res){
