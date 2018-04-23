@@ -2,15 +2,9 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const pg = require("./config/herokuKey");
 
 const PORT = process.env.PORT || 5000;
-
-const { Pool } = require("pg");
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true
-});
 
 const app = express();
 
@@ -42,7 +36,7 @@ app.use(function(request, response, next) {
 // Get function that returns all items in the database
 // id, name, reps, weight, date, and lbs(1 for lbs, 0 for kg)
 app.get("/workouts", function(req, res) {
-  pool.connect((err, db, done) => {
+  pg.pool.connect((err, db, done) => {
     if (err) return res.status(400).send(err);
     else {
       db.query(
@@ -70,7 +64,7 @@ app.post("/new-workout", function(req, res) {
 
   const data = [name, reps, weight, lbs, date];
 
-  pool.connect((err, db, done) => {
+  pg.pool.connect((err, db, done) => {
     if (err) return res.status(400).send(err);
     else {
       db.query(
