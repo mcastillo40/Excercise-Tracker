@@ -23,7 +23,7 @@ class ExcerciseApp extends Component {
 
 // When component mounts get all items from the database
   componentDidMount() {
-    let request = new Request("https://excercise-tracker.herokuapp.com/get-workouts", {
+    let request = new Request("http://localhost:5000/get-workouts", {
         method: "GET"
     });
 

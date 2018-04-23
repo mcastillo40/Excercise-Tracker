@@ -2,7 +2,7 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const pg = require("./config/herokuKey");
+const pg = require("./config/keys");
 
 const PORT = process.env.PORT || 5000;
 
@@ -35,22 +35,34 @@ app.use(function(request, response, next) {
 
 // Get function that returns all items in the database
 // id, name, reps, weight, date, and lbs(1 for lbs, 0 for kg)
-app.get("/get-workouts", function(req, res) {
-  pg.pool.connect((err, db, done) => {
-    if (err) return res.status(400).send(err);
-    else {
-      db.query(
-        "SELECT * FROM workouts;",
-        (err, table) => {
-          done();
-          if (err) return res.status(400).send(err);
-          else {
-            res.status(200).send(table.rows);
-          }
-        }
-      );
+app.get("/get-workouts", function(req, res, next) {
+  var context = {};
+  pg.pool.query('SELECT *, to_char(\"date\", \'MM/DD/YYYY\') AS date FROM workouts;', function(err, data, fields){
+    if(err){
+      next(err);
+      return;
     }
+    console.log(data)
+    context = data.rows;
+    console.log("Context: ", context)
+    res.send(context);
   });
+
+  // pg.pool.connect((err, db, done) => {
+  //   if (err) return res.status(400).send(err);
+  //   else {
+  //     db.query(
+  //       "SELECT * FROM workouts;",
+  //       (err, table) => {
+  //         done();
+  //         if (err) return res.status(400).send(err);
+  //         else {
+  //           res.status(200).send(table.rows);
+  //         }
+  //       }
+  //     );
+  //   }
+  // });
 });
 
 //Post function that posts workout to the database
