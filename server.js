@@ -39,10 +39,7 @@ app.get("/workouts", function(req, res) {
   pg.pool.connect((err, db, done) => {
     if (err) return res.status(400).send(err);
     else {
-      db.query(
-        "SELECT * FROM workouts;",
-        (err, table) => {
-          done();
+      db.query("SELECT * FROM workouts;", (err, table) => {
           if (err) return res.status(400).send(err);
           else {
             console.log(table.rows);
