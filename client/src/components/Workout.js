@@ -17,7 +17,7 @@ const Workout = props => {
       </div>
       <div className="col-sm-2">
         <button
-          className="btn"
+          className="btn btn-secondary"
           onClick={id => props.handleRemove(props.workoutInfo.id)}
         >
           Delete

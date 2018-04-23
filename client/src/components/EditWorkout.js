@@ -101,7 +101,7 @@ export default class EditWorkout extends React.Component {
   render() {
     return (
       <div>
-        <button className="btn" onClick={this.handleOpenModal}>
+        <button className="btn btn-secondary" onClick={this.handleOpenModal}>
           Edit
         </button>
         <ReactModal
