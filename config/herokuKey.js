@@ -1,8 +1,19 @@
 const pg = require("pg");
+var parse = require('pg-connection-string').parse;
+var config = parse(process.env.DATABASE_URL)
+
+// const pool = new pg.Pool({
+//     connectionString: process.env.DATABASE_URL,
+//     ssl: true
+// });
 
 const pool = new pg.Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: true
+    host: config.host,
+    port: config.port,
+    user: config.user,
+    password: config.password,
+    database: config.database,
+    ssl: config.ssl
 });
 
 module.exports.pool = pool; 
