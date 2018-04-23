@@ -52,7 +52,7 @@ app.get("/get-workouts", function(req, res) {
           if (err) return res.status(400).send(err);
           else {
             db.end();
-            return res.status(200).send(table.rows);
+            res.status(200).send(table.rows);
           }
         }
       );
