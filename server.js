@@ -8,6 +8,8 @@ const PORT = process.env.PORT || 5000;
 
 const app = express();
 
+console.log("DATABASE URL: ", process.env.DATABASE_URL);
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
