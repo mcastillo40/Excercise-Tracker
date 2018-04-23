@@ -2,18 +2,15 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-//const publicPath = path.join(__dirname, '..', 'client/public/');
-//const pg = require("./config/keys");
-//console.log("public: ", publicPath);
 
 const PORT = process.env.PORT || 5000;
 
-//const { Pool } = require("pg");
+const { Pool } = require("pg");
 
-// const pool = new Pool({
-//     connectionString: process.env.DATABASE_URL,
-//     ssl: true,
-// });
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true
+});
 
 const app = express();
 
@@ -21,24 +18,17 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-//app.use(express.static(publicPath));
-
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === "production") {
   // Will serve production assets
-  app.use(express.static('client/build'));
+  app.use(express.static("client/build"));
 
   // Will serve up index.html if route is not recognized
   const path = require("path");
-  
-  app.get('*', (req, res) => {
+
+  app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client", "build", "index.js"));
   });
 }
-
-// app.get('*', (req, res) => {
-//     console.log("Here", path.join(publicPath));
-//     res.sendFile(path.join(publicPath));
-// });
 
 app.use(function(request, response, next) {
   response.header("Access-Control-Allow-Origin", "*");
@@ -49,8 +39,8 @@ app.use(function(request, response, next) {
   next();
 });
 
-// // Get function that returns all items in the database
-// // id, name, reps, weight, date, and lbs(1 for lbs, 0 for kg)
+// Get function that returns all items in the database
+// id, name, reps, weight, date, and lbs(1 for lbs, 0 for kg)
 // app.get("/workouts", function(req, res){
 //     pg.pool.connect((err, db, done) => {
 //         if(err)
@@ -61,6 +51,7 @@ app.use(function(request, response, next) {
 //                 if(err)
 //                     return res.status(400).send(err);
 //                 else {
+//                   console.log(table.rows);
 //                   return res.status(200).send(table.rows);
 //                 }
 //             });
@@ -70,7 +61,7 @@ app.use(function(request, response, next) {
 
 // //Post function that posts workout to the database
 // app.post("/new-workout", function (req, res) {
-//     const name = req.body.name; 
+//     const name = req.body.name;
 //     const reps = req.body.reps;
 //     const weight = req.body.weight;
 //     const lbs = req.body.lbs;
@@ -82,7 +73,7 @@ app.use(function(request, response, next) {
 //         if(err)
 //             return res.status(400).send(err);
 //         else {
-//             db.query("INSERT INTO workouts (name, reps, weight, lbs, date)" 
+//             db.query("INSERT INTO workouts (name, reps, weight, lbs, date)"
 //             + "VALUES ($1, $2, $3, $4, $5);", data, (err, table) => {
 //                 if (err)
 //                     return res.status(400).send(err);
@@ -98,7 +89,7 @@ app.use(function(request, response, next) {
 // // Edits a specific workout in the database
 // app.put("/update", function(req, res){
 //     const id= req.body.id;
-//     const name = req.body.name; 
+//     const name = req.body.name;
 //     const reps = req.body.reps;
 //     const weight = req.body.weight;
 //     const lbs = req.body.lbs;
@@ -152,14 +143,14 @@ app.use(function(request, response, next) {
 
 // // Deletes all items from the table
 // app.delete("/delete-all/:id", function(req, res){
-//     let tableName = req.params.id; 
+//     let tableName = req.params.id;
 
 //     pg.pool.connect((err, db, done) => {
-//         if(err) 
+//         if(err)
 //             return res.status(400).send(err);
 //         else {
 //             db.query(`TRUNCATE table ${tableName}`, (err, table) => {
-//                 if(err) 
+//                 if(err)
 //                     return res.status(400).send(err);
 //                 else {
 //                     db.end();

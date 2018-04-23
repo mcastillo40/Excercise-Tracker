@@ -79,10 +79,3 @@ export default class Workouts extends React.Component {
     );
   }
 }
-
-          // <Workout
-          //   key={workout.id}
-          //   workoutInfo={workout}
-          //   handleRemove={this.handleRemove}
-          //   editItem={this.props.editItem}
-          // />

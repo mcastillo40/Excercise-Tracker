@@ -28,11 +28,14 @@ class ExcerciseApp extends Component {
         return response.json();
       })
       .then(data => {
-        this.setState(() => { workouts: data });
+        console.log("DATA: ", data)
+        this.setState({ workouts: data });
       })
       .catch(err => {
         return err;
       });
+
+      console.log(this.state.workouts);
   }
 
   // Function is to set react-modal
