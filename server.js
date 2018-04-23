@@ -49,9 +49,9 @@ app.get("/get-workouts", function(req, res) {
       db.query(
         "SELECT * FROM workouts;",
         (err, table) => {
+          done();
           if (err) return res.status(400).send(err);
           else {
-            db.end();
             res.status(200).send(table.rows);
           }
         }
