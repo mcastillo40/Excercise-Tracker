@@ -40,7 +40,7 @@ app.get("/get-workouts", function(req, res, next) {
     if (err) return res.status(400).send(err);
     else {
       db.query(
-        "SELECT * FROM workouts;",
+        "SELECT *, to_char(\"date\", \'MM/DD/YYYY\') AS date FROM workouts;",
         (err, table) => {
           done();
           if (err) return res.status(400).send(err);
