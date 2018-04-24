@@ -97,7 +97,7 @@ export default class AddWorkout extends React.Component {
         alert("Error: Type of weight and date format are incorrect");
       else if (!date_valid) alert("Error: Date format should be MM-DD-YYYY");
       else if (!lbs_valid)
-        alert("Error: Type of weight should be '1' for lbs or '0' for kgs");
+        alert("Error: Type of weight should be '1' for Lbs or '0' for Kgs");
       else if (!formFilled) alert("Error: Must complete all entries");
     }
   }

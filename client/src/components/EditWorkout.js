@@ -117,6 +117,7 @@ export default class EditWorkout extends React.Component {
             ref="workoutForm"
           >
             <div className="form-group">
+              <label>Workout Name: </label>
               <input
                 type="text"
                 className="form-control"
@@ -128,6 +129,7 @@ export default class EditWorkout extends React.Component {
               />
             </div>
             <div className="form-group">
+              <label>Number of Reps: </label>
               <input
                 type="number"
                 className="form-control"
@@ -138,6 +140,7 @@ export default class EditWorkout extends React.Component {
               />
             </div>
             <div className="form-group">
+              <label>Weight: </label>
               <input
                 type="number"
                 className="form-control"
@@ -148,6 +151,7 @@ export default class EditWorkout extends React.Component {
               />
             </div>
             <div className="form-group">
+              <label>1 for Lbs or 0 for Kgs: </label>
               <input
                 type="number"
                 className="form-control"
@@ -162,6 +166,7 @@ export default class EditWorkout extends React.Component {
               />
             </div>
             <div className="form-group">
+              <label>Date (MM-DD-YYYY): </label>
               <input
                 type="text"
                 className="form-control"

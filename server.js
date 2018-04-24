@@ -2,7 +2,7 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const pg = require("./config/herokuKey");
+const pg = require("./config/devKey");
 
 const PORT = process.env.PORT || 5000;
 
