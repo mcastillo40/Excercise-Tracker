@@ -12,7 +12,7 @@ export default class Workouts extends React.Component {
   handleRemoveAll() {
     let table = this.props.table;
 
-    let request = new Request(`https://excercise-tracker.herokuapp.com/${table}`, {
+    let request = new Request(`https://excercise-tracker.herokuapp.com//delete-all/${table}`, {
       method: "DELETE"
     });
 
@@ -31,7 +31,7 @@ export default class Workouts extends React.Component {
   // Function makes a request to delete a specific workout
   handleRemove(id) {
     let request = new Request(
-      `https://excercise-tracker.herokuapp.com/${id}`,
+      `https://excercise-tracker.herokuapp.com//delete-workout/${id}`,
       {
         method: "DELETE"
       }
