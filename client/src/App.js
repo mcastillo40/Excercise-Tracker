@@ -32,7 +32,6 @@ class ExcerciseApp extends Component {
         return response.json();
       })
       .then(data => {
-        console.log("DATA: ", data)
         this.setState({ workouts: data });
       })
       .catch(err => {
