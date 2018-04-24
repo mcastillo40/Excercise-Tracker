@@ -2,11 +2,6 @@ const pg = require("pg");
 var parse = require('pg-connection-string').parse;
 var config = parse(process.env.DATABASE_URL)
 
-// const pool = new pg.Pool({
-//     connectionString: process.env.DATABASE_URL,
-//     ssl: true
-// });
-
 const pool = new pg.Pool({
     host: config.host,
     port: config.port,
