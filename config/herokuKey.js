@@ -13,7 +13,7 @@ const pool = new pg.Pool({
     user: config.user,
     password: config.password,
     database: config.database,
-    ssl: config.ssl
+    ssl: true
 });
 
 module.exports.pool = pool; 
