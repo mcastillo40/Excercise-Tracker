@@ -37,8 +37,6 @@ class ExcerciseApp extends Component {
       .catch(err => {
         return err;
       });
-
-      console.log(this.state.workouts);
   }
 
   // Function is to set react-modal

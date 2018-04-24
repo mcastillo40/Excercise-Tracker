@@ -21,12 +21,18 @@ export default class AddWorkout extends React.Component {
       date: this.refs.date.value
     };
 
-    let formFilled = true;    
+    let formFilled = true;
     let lbs_valid = true;
-    let date_valid = true; 
+    let date_valid = true;
 
     // Validate that all sections were completed
-    if (data.name === "" || data.reps === "" || data.weight === "" || data.lbs === "" || data.date === "") {
+    if (
+      data.name === "" ||
+      data.reps === "" ||
+      data.weight === "" ||
+      data.lbs === "" ||
+      data.date === ""
+    ) {
       formFilled = false;
     }
 
@@ -34,19 +40,22 @@ export default class AddWorkout extends React.Component {
     if (data.lbs > 1 || data.lbs < 0) {
       lbs_valid = false;
     }
-    
+
     // Validate that date was inputted correctly
-    if(!validateDate(data.date)) {
+    if (!validateDate(data.date)) {
       date_valid = false;
     }
 
     if (lbs_valid && date_valid && formFilled) {
       // Initialize request data
-      let request = new Request("https://excercise-tracker.herokuapp.com/new-workout", {
-        method: "POST",
-        headers: new Headers({ "Content-Type": "application/json" }),
-        body: JSON.stringify(data)
-      });
+      let request = new Request(
+        "https://excercise-tracker.herokuapp.com/new-workout",
+        {
+          method: "POST",
+          headers: new Headers({ "Content-Type": "application/json" }),
+          body: JSON.stringify(data)
+        }
+      );
 
       let self = this;
 
@@ -55,7 +64,12 @@ export default class AddWorkout extends React.Component {
           return response
             .json()
             .then(() => {
-              return fetch("https://excercise-tracker.herokuapp.com/workouts");
+              let newRequest = new Request(
+                "https://excercise-tracker.herokuapp.com/get-workouts", {
+                  method: "GET"
+                }
+              );
+              return fetch(newRequest);
             })
             .then(response => {
               return response.json();
@@ -78,16 +92,13 @@ export default class AddWorkout extends React.Component {
       this.refs.weight.value = "";
       this.refs.lbs.value = "";
       this.refs.date.value = "";
-    }
-    else {
-      if(!lbs_valid && !date_valid)
+    } else {
+      if (!lbs_valid && !date_valid)
         alert("Error: Type of weight and date format are incorrect");
-      else if (!date_valid)
-        alert("Error: Date format should be MM-DD-YYYY");
+      else if (!date_valid) alert("Error: Date format should be MM-DD-YYYY");
       else if (!lbs_valid)
         alert("Error: Type of weight should be '1' for lbs or '0' for kgs");
-      else if (!formFilled)
-        alert("Error: Must complete all entries");
+      else if (!formFilled) alert("Error: Must complete all entries");
     }
   }
 
